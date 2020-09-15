@@ -1,0 +1,55 @@
+/*
+自己的解法
+运行时间：288ms
+内存消耗：108.8MB
+思路：
+整体是一个大循环，
+中间有2个循环，一个if语句，
+第一个循环用来寻找循环子字符串，
+中间的条件判断循环子字符串的长度，如果大于原字符串的1/2，则返回false，
+第二个循环判断原字符串是否由多个循环子字符串组成。
+主要用到的string函数有：
+构造函数 s( 10 , 'a') , s( s1 , 起始位置 ， 长度 )
+s.erase ( s.begin() , s.end() ) 
+*/
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        string str1 ( 1 , s[0] );
+        int n = s.size() , i=1 ;
+        while(true)
+        {
+            while( i<n && s[i]!=s[0] )
+            {
+                str1.push_back(s[i]) ;
+                i++ ;
+            }
+            if( str1.size() > n/2)
+            {
+                return false ;
+            }
+            string middle( s , i , n-i ) ;
+            while( true )
+            {
+                string part ( middle , 0 , i) ;
+                if( part == str1 ) 
+                {
+                    middle.erase( middle.begin() , middle.begin()+i ) ;
+                    if( middle.size() == 0 )
+                        return true ;
+                    if( middle.size() < i )
+                        return false ;
+            
+                }
+                else
+                { 
+                    str1.push_back(s[i]) ;
+                    i++ ;
+                    break ;
+                }
+            }
+        }
+
+
+    }
+};
